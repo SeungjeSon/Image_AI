@@ -32,8 +32,8 @@ class UpSample(nn.Module):
 
 class CropAndConcat(nn.Module):
     def forward(self, x: torch.Tensor, contracting_x: torch.Tensor):
-        contracting_x = torchvision.transforms.functional.center_crop(contracting_x, [x.shape[2], x.shape[3]])
-        x = torch.cat([x, contracting_x], dim=1)
+        contracting_x = torchvision.transforms.functional.center_crop(contracting_x, [x.shape[2], x.shape[3]]) # Concat을 위해 Concatracting 구조에서 pass_through로 넘긴 크기가 Expanding 구조에서 feature map 크기와 동일해야하므로 crop을 진행
+        x = torch.cat([x, contracting_x], dim=1)                                                               # 하지만 same padding을 진행하면 feature map 크기가 같으므로 crop을 진행하지 않아도 될듯.
         return x
 
 class UNet(nn.Module):
